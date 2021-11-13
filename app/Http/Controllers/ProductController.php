@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\ProductVariantPrice;
 use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\View\Components\FlashMessages;
+use App\Service\ProductFilter;
+use App\Service\ProductModification;
 
 class ProductController extends Controller
 {
@@ -15,9 +20,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function index()
-    {
-        return view('products.index');
+	 
+	 use FlashMessages;
+	 
+    public function index(Request $request, ProductFilter $product)
+    {				
+		$opject = $product->getData();
+		$products = $opject['products'];
+		$variations = $opject['variations'];
+        return view('products.index',compact('products','variations'));
     }
 
     /**
@@ -37,11 +48,11 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(ProductModification $product)
     {
+       $product->store();
 
     }
-
 
     /**
      * Display the specified resource.
@@ -88,4 +99,38 @@ class ProductController extends Controller
     {
         //
     }
+	
+	
+		//use App\Models\ProductImage;
+		//use App\Models\ProductVariant;
+		//use App\Models\ProductVariantPrice;
+
+	public function copyListing($id){
+		$skus = $invoice_number = rand(100, 999).$id;
+		$products = Product::find($id);
+		$newproduct = $products->replicate();
+		$newproduct->sku = $skus;
+		$newproduct->save();
+		$lastProID = $newproduct->id;
+
+		$productsGallery = ProductImage::where('product_id',$id)->first();
+		if($productsGallery!=""){
+			$newproductG = $productsGallery->replicate();
+			$newproductG->product_id = $lastProID;
+			$newproductG->save();
+		}
+
+		$productsVariant = ProductVariant::where('product_id',$id)->first();
+		$newproductV = $productsVariant->replicate();
+		$newproductV->product_id = $lastProID;
+		$newproductV->save();
+		
+		$productsVariantPrice = ProductVariantPrice::where('product_id',$id)->first();
+		$newproductVP = $productsVariantPrice->replicate();
+		$newproductVP->product_id = $lastProID;
+		$newproductVP->save();
+
+		self::message('success', 'Data Added successfully Done');
+        return redirect()->back();
+   }
 }
