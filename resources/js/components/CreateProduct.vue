@@ -6,11 +6,11 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Product Name</label>
-                            <input type="text" v-model="product_name" placeholder="Product Name" class="form-control">
+                            <input type="text" v-model="product_name" placeholder="Product Name" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="">Product SKU</label>
-                            <input type="text" v-model="product_sku" placeholder="Product Name" class="form-control">
+                            <input type="text" v-model="product_sku" placeholder="Product Name" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="">Description</label>
@@ -187,15 +187,16 @@ export default {
                 product_variant: this.product_variant,
                 product_variant_prices: this.product_variant_prices
             }
-                console.log(product);
+            //console.log(product.title);
 
+            //if(this.)
             axios.post('/product', product).then(response => {
-                console.log(response.data);
+                //console.log(response.data);
             }).catch(error => {
                 console.log(error);
             })
 
-            console.log(product);
+            //console.log(product);
         }
 
 

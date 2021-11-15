@@ -23,7 +23,7 @@ class ProductModification
 		$request = request();
 		//dd($request->product_variant);
 		
-		$product = Product::create($request->only('title', 'sku', 'description'));
+		/*$product = Product::create($request->only('title', 'sku', 'description'));
         if ($product) {
             if ($request->hasFile('product_image')) {
                 $files = $request->file('product_image');
@@ -92,7 +92,7 @@ class ProductModification
                 }
             }
 
-        }
+        }*/
 	}
 	
 	
