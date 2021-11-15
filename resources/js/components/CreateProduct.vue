@@ -1,7 +1,7 @@
 <template>
     <section>
-        <div class="row">
-            <div>
+        <div class="col-sm-12">
+            <div style="color:red">
                 <p v-if="errors.length">
                     <b>Please correct the following error(s):</b>
                     <ul>
@@ -9,17 +9,18 @@
                     </ul>
                 </p>
             </div>
-        
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Product Name</label>
-                            <input type="text" v-model="product_name" placeholder="Product Name" class="form-control" required>
+                            <input type="text" v-model="product_name" placeholder="Product Name" class="form-control" required :class="{'input--error':!product_name}">
                         </div>
                         <div class="form-group">
                             <label for="">Product SKU</label>
-                            <input type="text" v-model="product_sku" placeholder="Product Name" class="form-control" required>
+                            <input type="text" v-model="product_sku" placeholder="Product SKU" class="form-control" required :class="{'input--error':!product_sku}">
                         </div>
                         <div class="form-group">
                             <label for="">Description</label>
@@ -128,6 +129,7 @@ export default {
             description: '',
             images: [],
             errors: [],
+            errorField: { product_name: false, product_sku: false},
             product_variant: [
                 {
                     option: this.variants[0].id,
@@ -188,7 +190,7 @@ export default {
         },
 
         // store product into database
-        saveProduct() {
+        saveProduct(e) {
             let product = {
                 title: this.product_name,
                 sku: this.product_sku,
@@ -210,13 +212,15 @@ export default {
 
             this.errors = [];
             if(!product.title){
+                this.errorField.product_name = true
                 this.errors.push('Product name is required');
             }
             if(!product.sku){
+                this.errorField.product_sku = true
                 this.errors.push('Product sku is required');
             }
 
-            //e.preventDefault();
+            e.preventDefault();
             
 
             //console.log(product);
@@ -229,3 +233,8 @@ export default {
     }
 }
 </script>
+<style>
+.input--error{
+    border-color:red;
+}
+</style>

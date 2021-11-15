@@ -50,10 +50,9 @@ class ProductController extends Controller
      */
      public function store(Request $request)
     {
-        //dd($request);
         $product = Product::create($request->only('title', 'sku', 'description'));
         if ($product) {
-            /*if ($request->hasFile('product_image')) {
+            if ($request->hasFile('product_image')) {
                 $files = $request->file('product_image');
                 foreach ($files as $file) {
                     $imagesPath = $file->store('public');
@@ -68,7 +67,7 @@ class ProductController extends Controller
                     ProductImage::create($data);
                 }
 
-            }*/
+            }
 			$imageName = time().'.'.$request->file->getClientOriginalExtension();
 			//dd($imageName);
         	$request->file->move(public_path('images'), $imageName);
