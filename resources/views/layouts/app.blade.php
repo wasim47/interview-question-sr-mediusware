@@ -155,6 +155,6 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('js/app.js') }}?{{ time() }}" defer></script>
 </body>
 </html>

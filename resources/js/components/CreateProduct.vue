@@ -1,6 +1,15 @@
 <template>
     <section>
         <div class="row">
+            <div>
+                <p v-if="errors.length">
+                    <b>Please correct the following error(s):</b>
+                    <ul>
+                    <li v-for="error in errors" :key="error.id">{{ error }}</li>
+                    </ul>
+                </p>
+            </div>
+        
             <div class="col-md-6">
                 <div class="card shadow mb-4">
                     <div class="card-body">
@@ -118,6 +127,7 @@ export default {
             product_sku: '',
             description: '',
             images: [],
+            errors: [],
             product_variant: [
                 {
                     option: this.variants[0].id,
@@ -188,13 +198,26 @@ export default {
                 product_variant_prices: this.product_variant_prices
             }
             //console.log(product.title);
+            //alert(product.title);
 
-            //if(this.)
-            axios.post('/product', product).then(response => {
-                //console.log(response.data);
-            }).catch(error => {
-                console.log(error);
-            })
+            if(product.title && product.sku){
+                axios.post('/product', product).then(response => {
+                    //console.log(response.data);
+                }).catch(error => {
+                    console.log(error);
+                })
+            }
+
+            this.errors = [];
+            if(!product.title){
+                this.errors.push('Product name is required');
+            }
+            if(!product.sku){
+                this.errors.push('Product sku is required');
+            }
+
+            //e.preventDefault();
+            
 
             //console.log(product);
         }
