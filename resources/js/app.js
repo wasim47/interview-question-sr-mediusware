@@ -8,6 +8,8 @@ require('./bootstrap');
 require('./sb-admin');
 window.Vue = require('vue');
 
+Vue.config.productionTip = false
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -20,6 +22,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('create-product', require('./components/CreateProduct.vue').default);
+Vue.component('edit-product', require('./components/EditProduct.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

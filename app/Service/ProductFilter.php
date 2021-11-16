@@ -72,6 +72,6 @@ class ProductFilter
 	   }
 	     
 	   
-	   return $query->orderBy('id','ASC')->paginate(10);
+	   return $query->orderBy('id','DESC')->paginate(10);
 	}
 }

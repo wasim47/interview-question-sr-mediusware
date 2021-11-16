@@ -119,15 +119,21 @@ export default {
         vueDropzone: vue2Dropzone,
         InputTag
     },
-    props: {
-        variants: {
-            type: Array,
-            required: true
-        }
-    },
+    // props: {
+    //         variants: {
+    //             type: Array,
+    //             required: true
+    //         },
+    //         productid:{
+    //             type: String,
+    //             default: '0'
+    //         }
+    // },
+     props: ['productid','variants','getproducts'],
+
     data() {
         return {
-            product_name: '',
+            product_name: `${this.variant }`,
             product_sku: '',
             description: '',
             images: [],
@@ -135,6 +141,7 @@ export default {
             errorField: { product_name: false, product_sku: false},
             responsemsg: '',
             bgcolor: '',
+            items: 'not updated',
             product_variant: [
                 {
                     option: this.variants[0].id,
@@ -239,13 +246,19 @@ export default {
                 this.errorField.product_sku = true
                 this.errors.push('Product sku is required');
             }
-        }
+        },
+         getEditValue() {
+            //console.log(this.getId);
+            //this.product_name = this.getproducts[0].id;
+            //axios.get('./product/editapi/').then(response => this.users = response.data);
+         }
 
 
     },
     mounted() {
-        console.log('Component mounted.')
-    }
+        //console.log('Component mounted.');
+        this.getEditValue();
+    },
 }
 </script>
 <style>
